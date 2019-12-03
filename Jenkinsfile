@@ -4,7 +4,7 @@ pipeline {
     DOCKERHUB_USER = "yuichi110"
     BUILD_HOST = "root@10.149.245.120"
     PROD_HOST = "root@10.149.245.121"
-    BUILD_TIMESTAMP = sh(script: "date +%Y%m%d.%H%M%S", returnStdout: true).trim()
+    BUILD_TIMESTAMP = sh(script: "date +%Y%m%d-%H%M%S", returnStdout: true).trim()
   }
   stages {
     stage('Pre Check') {
