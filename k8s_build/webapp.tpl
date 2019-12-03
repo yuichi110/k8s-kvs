@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: web
-          image: yuichi110/c8kvs_local_web
+          image: {{DOCKERHUB_USER}}/c8kvs_test_web:{{BUILD_TIMESTAMP}}
           ports:
           - name: http
             containerPort: 80
@@ -28,7 +28,7 @@ spec:
           - name: API_PROXY_URL
             value: "http://127.0.0.1:8080"
         - name: app
-          image: yuichi110/c8kvs_local_app
+          image: {{DOCKERHUB_USER}}/c8kvs_test_app:{{BUILD_TIMESTAMP}}
           env:
           - name: PORT
             value: "8080"

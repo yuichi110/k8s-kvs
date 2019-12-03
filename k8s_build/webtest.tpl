@@ -7,7 +7,7 @@ metadata:
 spec:
   containers:
     - name: webtest
-      image: yuichi110/c8kvs_local_webtest
+      image: {{DOCKERHUB_USER}}/c8kvs_test_webtest:{{BUILD_TIMESTAMP}}
       env:
       - name: WEB_HOST
         value: "webapp"
