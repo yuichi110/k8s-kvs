@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: web
-          image: {{DOCKERHUB_USER}}/c8kvs_test_web:{{BUILD_TIMESTAMP}}
+          image: {{DOCKERHUB_USER}}/c8kvs_prod_web:{{BUILD_TIMESTAMP}}
           ports:
           - name: http
             containerPort: 80
@@ -28,12 +28,12 @@ spec:
           - name: API_PROXY_URL
             value: "http://127.0.0.1:8080"
         - name: app
-          image: {{DOCKERHUB_USER}}/c8kvs_test_app:{{BUILD_TIMESTAMP}}
+          image: {{DOCKERHUB_USER}}/c8kvs_prod_app:{{BUILD_TIMESTAMP}}
           env:
           - name: PORT
             value: "8080"
           - name: REDIS_HOST
-            value: db
+            value: db.common.svc.cluster.local
           - name: REDIS_PORT
             value: "6379"
           - name: REDIS_DB

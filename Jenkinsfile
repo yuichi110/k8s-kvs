@@ -35,6 +35,7 @@ pipeline {
         sh "kubectl apply -f ./k8s_build/db.yml"
         sh "kubectl apply -f ./k8s_build/webapp.yml"
         sh "kubectl apply -f ./k8s_build/service.yml"
+        sh "sleep 10"
         sh "kubectl exec -it webtest -- pytest -v test_app.py"
         sh "kubectl exec -it webtest -- pytest -v test_static.py"
         sh "kubectl exec -it webtest -- pytest -v test_selenium.py"
