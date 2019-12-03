@@ -1,0 +1,6 @@
+docker image tag c8kvs_local_web yuichi110/c8kvs_local_web
+docker image tag c8kvs_local_app yuichi110/c8kvs_local_app
+docker image tag c8kvs_local_webtest yuichi110/c8kvs_local_webtest
+docker image push yuichi110/c8kvs_local_web
+docker image push yuichi110/c8kvs_local_app
+docker image push yuichi110/c8kvs_local_webtest

@@ -1,5 +1,4 @@
-version: '3.7'
-      
+version: '3.7'  
 services:
   selenium_chrome:
     image: selenium/node-chrome:3.141.59-vanadium
@@ -9,18 +8,16 @@ services:
     environment:
       - HUB_HOST=selenium_hub
       - HUB_PORT=4444
-
   selenium_hub:
     image: selenium/hub:3.141.59-vanadium
     container_name: c8kvs_local_selenium_hub
     ports:
       - 4444:4444
-
   webtest:
     build:
       context: ./webtest
       dockerfile: Dockerfile
-    image: yuichi110/c8kvs_local_webtest  
+    image: c8kvs_local_webtest  
     container_name: c8kvs_local_webtest
     depends_on:
       - web
@@ -33,12 +30,11 @@ services:
     volumes:
       - ./webtest/src:/src
       - ./webtest/images:/images
-
   web: 
     build:
       context: ./web
       dockerfile: Dockerfile
-    image: yuichi110/c8kvs_local_web
+    image: c8kvs_local_web
     container_name: c8kvs_local_web
     depends_on:
       - app
@@ -48,12 +44,11 @@ services:
       APP_SERVER: http://app:80
     volumes:
       - ./web/html:/usr/share/nginx/html
-
   app:
     build:
       context: ./app
       dockerfile: Dockerfile
-    image: yuichi110/c8kvs_local_app
+    image: c8kvs_local_app
     container_name: c8kvs_local_app
     depends_on:
       - db
@@ -66,13 +61,11 @@ services:
       REDIS_DB: 0
     volumes:
       - ./app/src:/src
-
   db:
     image: redis:5.0.6-alpine3.10
     container_name: c8kvs_local_db
     volumes:
       - c8kvs_redis_volume:/data
-
 volumes:
   c8kvs_redis_volume:
     driver: local
