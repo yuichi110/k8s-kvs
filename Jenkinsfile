@@ -54,10 +54,10 @@ pipeline {
         sh "./k8s_prod/generate.sh ${DOCKERHUB_USER} ${BUILD_TIMESTAMP}"
         sh "kubectl config use-context prod"
         sh "kubectl create namespace common || true"
-        sh "kubectl apply -f ./k8s_build/db.yml -n common"
+        sh "kubectl apply -f ./k8s_prod/db.yml -n common"
         sh "kubectl create namespace ${BUILD_TIMESTAMP}"
-        sh "kubectl apply -f ./k8s_build/webapp.yml -n ${BUILD_TIMESTAMP}"
-        sh "kubectl apply -f ./k8s_build/service.yml -n ${BUILD_TIMESTAMP}"
+        sh "kubectl apply -f ./k8s_prod/webapp.yml -n ${BUILD_TIMESTAMP}"
+        sh "kubectl apply -f ./k8s_prod/service.yml -n ${BUILD_TIMESTAMP}"
         sh "kubectl get services -n ${BUILD_TIMESTAMP}"
       }
     }
