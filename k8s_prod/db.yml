@@ -26,9 +26,16 @@ spec:
       labels: 
         pod: db
     spec:
+      volumes: 
+        - name: redis-volume
+          hostPath:
+            path: /volumes/redis
       containers:
         - name: redis
           image: redis:5.0.6-alpine3.10
           ports:
           - name: redis
             containerPort: 6379
+          volumeMounts:
+          - name: redis-volume
+            mountPath: /data

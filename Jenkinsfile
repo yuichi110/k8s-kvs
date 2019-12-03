@@ -53,11 +53,11 @@ pipeline {
         sh "docker -H ssh://${BUILD_HOST} push ${DOCKERHUB_USER}/c8kvs_prod_app:${BUILD_TIMESTAMP}"
         sh "./k8s_prod/generate.sh ${DOCKERHUB_USER} ${BUILD_TIMESTAMP}"
         sh "kubectl config use-context prod"
-        sh "kubectl create namespace common || true"
-        sh "kubectl apply -f ./k8s_prod/db.yml -n common"
         sh "kubectl create namespace ${BUILD_TIMESTAMP}"
         sh "kubectl apply -f ./k8s_prod/webapp.yml -n ${BUILD_TIMESTAMP}"
         sh "kubectl apply -f ./k8s_prod/service.yml -n ${BUILD_TIMESTAMP}"
+        sh "kubectl create namespace common || true"
+        sh "kubectl apply -f ./k8s_prod/db.yml -n common"
         sh "kubectl get services -n ${BUILD_TIMESTAMP}"
       }
     }
