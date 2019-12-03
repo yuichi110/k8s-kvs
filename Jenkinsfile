@@ -31,6 +31,8 @@ pipeline {
       steps {
         sh "./k8s_build/generate.sh ${DOCKERHUB_USER} ${BUILD_TIMESTAMP}"
         sh "kubectl config use-context build"
+        sh "kubectl delete -f ./k8s_build/webtest.yml -f ./k8s_build/service.yml; true"
+        sh "kubectl delete -f ./k8s_build/webapp.yml -f ./k8s_build/db.yml; true"
         sh "kubectl apply -f ./k8s_build/webtest.yml"
         sh "kubectl apply -f ./k8s_build/db.yml"
         sh "kubectl apply -f ./k8s_build/webapp.yml"
