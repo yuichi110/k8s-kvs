@@ -21,9 +21,12 @@
 #  - Unexpected trouble happens on app server due to Bug.
 #
 
+import os
 from requests import get, post, put, delete
 
-BASEURL = 'http://app/api/v1'
+WEB_HOST = os.environ['WEB_HOST']
+WEB_PORT = int(os.environ['WEB_PORT'])
+BASEURL = f'http://{WEB_HOST}:{WEB_PORT}/api/v1'
 
 ##########
 ## KEYS ##
@@ -189,7 +192,6 @@ def clean():
   r = get(f'{BASEURL}/keys/')
   for key in r.json():
     delete(f'{BASEURL}/keys/{key}')
-
   num_keys = len(get(f'{BASEURL}/keys/').json())
   assert 0 == num_keys
 

@@ -1,47 +1,76 @@
-# docker-compose.yml for local
 version: '3.7'
-
+      
 services:
+  selenium_chrome:
+    image: selenium/node-chrome:3.141.59-vanadium
+    container_name: c8kvs_build_selenium_chrome
+    depends_on:
+      - selenium_hub
+    environment:
+      - HUB_HOST=selenium_hub
+      - HUB_PORT=4444
+
+  selenium_hub:
+    image: selenium/hub:3.141.59-vanadium
+    container_name: c8kvs_build_selenium_hub
+    ports:
+      - 4444:4444
+
+  webtest:
+    build:
+      context: ./webtest
+      dockerfile: Dockerfile
+    image: c8kvs_build_webtest  
+    container_name: c8kvs_build_webtest
+    depends_on:
+      - web
+      - selenium_hub
+    environment:
+      WEB_HOST: web
+      WEB_PORT: 80
+      SELENIUM_HUB_HOST: selenium_hub
+      SELENIUM_HUB_PORT: 4444
+    volumes:
+      - c8kvs_selenium_volume:/images
 
   web: 
     build:
       context: ./web
       dockerfile: Dockerfile
-    image: kvs2_web_local
-    container_name: kvs2_web
-    restart: always
+    image: c8kvs_build_web
+    container_name: c8kvs_build_web
     depends_on:
       - app
     ports:
-      - 80:80
+      - 8080:80
     environment:
-      PORT         : 80
-      API_PROXY_URL: "http://app:80"
+      APP_SERVER: http://app:80
 
   app:
     build:
       context: ./app
       dockerfile: Dockerfile
-    image: kvs2_app_local
-    container_name: kvs2_app
-    restart: always
+    image: c8kvs_build_app
+    container_name: c8kvs_build_app
     depends_on:
       - db
     ports:
-      - 8080:80
+      - 8081:80
     environment:
-      PORT:       80
+      DEBUG: "true"
       REDIS_HOST: db
       REDIS_PORT: 6379
-      REDIS_DB:   0
+      REDIS_DB: 0
 
   db:
     image: redis:5.0.6-alpine3.10
-    restart: always
-    container_name: kvs2_db
+    container_name: c8kvs_build_db
     volumes:
-      - redis_volume:/data
+      - c8kvs_redis_volume:/data
 
 volumes:
-  redis_volume:
+  c8kvs_redis_volume:
+    driver: local
+
+  c8kvs_selenium_volume:
     driver: local

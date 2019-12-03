@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webtest
+  labels: 
+    pod: webtest
+spec:
+  containers:
+    - name: webtest
+      image: yuichi110/c8kvs_local_webtest
+      env:
+      - name: WEB_HOST
+        value: "webapp"
+      - name: WEB_PORT
+        value: "80"
+      - name: SELENIUM_HUB_HOST
+        value: "127.0.0.1"
+      - name: SELENIUM_HUB_PORT
+        value: "4444"
+    - name: selenium-hub
+      image: selenium/hub:3.141.59-vanadium
+    - name: selenium-chrome
+      image: selenium/node-chrome:3.141.59-vanadium
+      env:
+      - name: HUB_HOST
+        value: "127.0.0.1"
+      - name: HUB_PORT
+        value: "4444"

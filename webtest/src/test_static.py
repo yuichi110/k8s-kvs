@@ -1,7 +1,9 @@
+import os
 from requests import get, post, put, delete
 
-BASEURL = 'http://web'
-
+WEB_HOST = os.environ['WEB_HOST']
+WEB_PORT = int(os.environ['WEB_PORT'])
+BASEURL = 'http://{}:{}'.format(WEB_HOST, WEB_PORT)
 
 ################
 ## index.html ##
@@ -51,6 +53,6 @@ def test_js_bootstrap():
   assert r.status_code == 200
 
 def test_js_mykvs():
-  r = get(f'{BASEURL}/static/js/mykvs.js')
+  r = get(f'{BASEURL}/static/js/kvs.js')
   assert r.status_code == 200
 
